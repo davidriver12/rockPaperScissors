@@ -21,36 +21,65 @@ function playRound(playerSelection, computerSelection){
         if (computerSelection == 'rock'){
             return 'Tie!';
         } else if (computerSelection == 'paper'){
-            return 'Computer wins!';
+            computerScore += 1;
+            return 'Point for computer!';
         } else {
-            return 'Player wins!';
+            playerScore += 1;
+            return 'Point for player!!';
         }
     } else if (playerSelection == 'paper'){
         if (computerSelection == 'rock'){
-            return 'Player wins!';
+            playerScore += 1;
+            return 'Point for player!';
         } else if (computerSelection == 'paper'){
             return 'Tie!';
         } else {
-            return 'Computer wins!';
+            computerScore += 1;
+            return 'Point for computer!';
         }
     } else {
         if (computerSelection == 'rock'){
-            return 'Computer wins!';
+            computerScore += 1;
+            return 'Point for computer!';
         } else if (computerSelection == 'paper'){
-            return 'Player wins!';
+            playerScore += 1;
+            return 'Point for player!';
         } else {
             return 'Tie!';
         }
     }
 }
 
-function game(){
-    for (let i = 0 ; i<5; i++){
-        playerSelection = prompt('Choose your play:');
-        computerSelection = getRandomPlay();
-        console.log(playRound(playerSelection, computerSelection))
-    }
+function checkWinner(playerScore, computerScore){
+    if (playerScore >= 5){
+        resultsDiv.textContent = '';
+        resultsDiv.textContent += 'Player wins!'
+        return true
+    } else if (computerScore >= 5){
+        resultsDiv.textContent = '';
+        resultsDiv.textContent += 'Computer wins!'
+        return true
+    }   
 }
 
-game()
-//xd
+function resetScore(){
+    playerScore = 0;
+    computerScore = 0;
+}
+
+function game(playerSelection){
+        computerSelection = getRandomPlay();
+        resultsDiv.textContent += (playRound(playerSelection, computerSelection))
+}
+
+var playerScore = 0;
+var computerScore = 0;
+const resultsDiv = document.querySelector('#results');
+const buttons = document.querySelectorAll('.btn');
+buttons.forEach (btn => btn.addEventListener('click', function(){
+    game(btn.id);
+    checkWinner(playerScore, computerScore);
+    if (playerScore >= 5 || computerScore >= 5){
+        resetScore()
+    }
+}));
